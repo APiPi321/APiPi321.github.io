@@ -3,65 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang cá nhân của [TÊN BẠN]</title>
+    <title>[TÊN BẠN] | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
+        :root {
+            --primary: #2A2A72;
+            --secondary: #009FFD;
+            --accent: #FF0076;
+        }
+
+        * {
             margin: 0;
-            padding: 20px;
-            background-color: #f0f2f5;
-            color: #333;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
+
+        body {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            line-height: 1.6;
+        }
+
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 2rem;
         }
-        h1 {
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
+
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
         }
-        .profile-img {
-            width: 150px;
-            height: 150px;
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            top: -50%;
+            left: -50%;
+            z-index: 0;
+        }
+
+        .avatar {
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
-            margin: 20px auto;
-            display: block;
-            object-fit: cover;
+            border: 3px solid white;
+            margin: 1rem auto;
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s ease;
         }
-        .section {
-            margin: 30px 0;
+
+        .avatar:hover {
+            transform: scale(1.05);
         }
-        a {
-            color: #3498db;
-            text-decoration: none;
+
+        h1 {
+            font-size: 3rem;
+            margin: 1rem 0;
+            position: relative;
+            z-index: 1;
         }
-        a:hover {
-            text-decoration: underline;
+
+        .tagline {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .skill {
+            background: var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            font-size: 2rem;
+            color: white;
+            transition: color 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <img src="https://via.placeholder.com/150" alt="Ảnh đại diện" class="profile-img">
-        <h1>Xin chào, tôi là [TÊN BẠN]</h1>
-        
-        <div class="section">
-            <h2>Giới thiệu</h2>
-            <p>Đây là trang web cá nhân của tôi. Tôi đam mê công nghệ và thiết kế web!</p>
-        </div>
+        <section class="hero">
+            <img src="https://source.unsplash.com/random/800x800/?portrait" alt="Avatar" class="avatar">
+            <h1>[TÊN BẠN]</h1>
+            <p class="tagline">Creative Developer & Digital Designer</p>
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            </div>
+        </section>
 
-        <div class="section">
-            <h2>Liên hệ</h2>
-            <ul>
-                <li>Email: <a href="mailto:youremail@example.com">youremail@example.com</a></li>
-                <li>GitHub: <a href="https://github.com/username">github.com/username</a></li>
-            </ul>
+        <div class="grid">
+            <div class="card">
+                <h2>👨💻 Giới Thiệu</h2>
+                <p>Lập trình viên full-stack với 5+ năm kinh nghiệm trong phát triển web và ứng dụng di động. Đam mê tạo ra những trải nghiệm người dùng tuyệt vời.</p>
+            </div>
+
+            <div class="card">
+                <h2>🚀 Kỹ Năng</h2>
+                <div class="skills">
+                    <span class="skill">React</span>
+                    <span class="skill">Node.js</span>
+                    <span class="skill">UI/UX</span>
+                    <span class="skill">AWS</span>
+                    <span class="skill">Python</span>
+                    <span class="skill">Figma</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>📩 Liên Hệ</h2>
+                <p>
+                    <i class="fas fa-envelope"></i> email@example.com<br>
+                    <i class="fas fa-phone"></i> +84 123 456 789
+                </p>
+            </div>
         </div>
     </div>
 </body>
