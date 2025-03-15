@@ -3,181 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[TÊN BẠN] | Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Lịch Sử Việt Nam - Timeline Interactive</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
     <style>
         :root {
-            --primary: #2A2A72;
-            --secondary: #009FFD;
-            --accent: #FF0076;
+            --primary: #2c3e50;
+            --secondary: #e74c3c;
+            --accent: #3498db;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            line-height: 1.6;
+            font-family: 'Merriweather', serif;
+            background: #f8f9fa;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+        }
+
+        #map {
+            height: 100vh;
+            z-index: 1;
+        }
+
+        .timeline-container {
             padding: 2rem;
-        }
-
-        .hero {
-            text-align: center;
-            padding: 4rem 0;
+            overflow-y: auto;
             position: relative;
-            overflow: hidden;
         }
 
-        .hero::after {
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
             content: '';
             position: absolute;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-            top: -50%;
-            left: -50%;
-            z-index: 0;
+            left: 50%;
+            width: 4px;
+            height: 100%;
+            background: var(--accent);
+            transform: translateX(-50%);
         }
 
-        .avatar {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            border: 3px solid white;
-            margin: 1rem auto;
+        .event-card {
+            background: white;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            transform-style: preserve-3d;
+            transition: all 0.3s ease;
             position: relative;
-            z-index: 1;
-            transition: transform 0.3s ease;
+            width: 400px;
         }
 
-        .avatar:hover {
-            transform: scale(1.05);
+        .event-card:hover {
+            transform: translateY(-5px) rotateX(5deg);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
         }
 
-        h1 {
-            font-size: 3rem;
-            margin: 1rem 0;
-            position: relative;
-            z-index: 1;
+        .event-date {
+            font-size: 1.2rem;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
         }
 
-        .tagline {
-            font-size: 1.5rem;
-            opacity: 0.9;
-            margin-bottom: 2rem;
+        .event-location {
+            color: var(--accent);
+            margin: 0.5rem 0;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 2rem;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            transition: transform 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .skills {
+        .participants {
             display: flex;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 0.5rem;
             margin-top: 1rem;
         }
 
-        .skill {
-            background: var(--accent);
-            padding: 0.5rem 1rem;
+        .participant {
+            background: #ecf0f1;
+            padding: 0.3rem 0.8rem;
             border-radius: 20px;
             font-size: 0.9rem;
         }
 
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 2rem;
+        .marker {
+            background: var(--secondary);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .social-link {
-            font-size: 2rem;
-            color: white;
-            transition: color 0.3s ease;
-        }
-
-        .social-link:hover {
-            color: var(--accent);
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
+        .marker:hover {
+            transform: scale(1.5);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <section class="hero">
-            <img src="https://source.unsplash.com/random/800x800/?portrait" alt="Avatar" class="avatar">
-            <h1>[TÊN BẠN]</h1>
-            <p class="tagline">Creative Developer & Digital Designer</p>
-            <div class="social-links">
-                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
-                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-            </div>
-        </section>
-
-        <div class="grid">
-            <div class="card">
-                <h2>👨💻 Giới Thiệu</h2>
-                <p>Lập trình viên full-stack với 5+ năm kinh nghiệm trong phát triển web và ứng dụng di động. Đam mê tạo ra những trải nghiệm người dùng tuyệt vời.</p>
-            </div>
-
-            <div class="card">
-                <h2>🚀 Kỹ Năng</h2>
-                <div class="skills">
-                    <span class="skill">React</span>
-                    <span class="skill">Node.js</span>
-                    <span class="skill">UI/UX</span>
-                    <span class="skill">AWS</span>
-                    <span class="skill">Python</span>
-                    <span class="skill">Figma</span>
-                </div>
-            </div>
-
-            <div class="card">
-                <h2>📩 Liên Hệ</h2>
-                <p>
-                    <i class="fas fa-envelope"></i> email@example.com<br>
-                    <i class="fas fa-phone"></i> +84 123 456 789
-                </p>
-            </div>
+        <div id="map"></div>
+        <div class="timeline-container">
+            <div class="timeline" id="timeline"></div>
         </div>
     </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Database sự kiện (có thể chỉnh sửa tại đây)
+        const historicalEvents = [
+            {
+                date: "2/9/1945",
+                title: "Quốc khánh nước VNDCCH",
+                location: {
+                    name: "Quảng trường Ba Đình, Hà Nội",
+                    lat: 21.036389, 
+                    lng: 105.836111
+                },
+                content: "Chủ tịch Hồ Chí Minh đọc bản Tuyên ngôn Độc lập khai sinh nước Việt Nam Dân chủ Cộng hòa",
+                participants: ["Hồ Chí Minh", "Võ Nguyên Giáp", "Trường Chinh", "Nhân dân Hà Nội"]
+            },
+            {
+                date: "7/5/1954",
+                title: "Chiến thắng Điện Biên Phủ",
+                location: {
+                    name: "Điện Biên Phủ",
+                    lat: 21.386667, 
+                    lng: 103.015556
+                },
+                content: "Quân đội Việt Minh giành chiến thắng quyết định kết thúc chiến tranh Đông Dương",
+                participants: ["Võ Nguyên Giáp", "Hoàng Văn Thái", "Đại đoàn 308"]
+            }
+        ];
+
+        // Khởi tạo bản đồ
+        const map = L.map('map').setView([16, 106], 5);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        // Tạo timeline
+        const timeline = document.getElementById('timeline');
+        
+        historicalEvents.forEach((event, index) => {
+            // Thêm marker trên bản đồ
+            const marker = L.marker([event.location.lat, event.location.lng])
+                .bindPopup(`<b>${event.title}</b><br>${event.date}`)
+                .addTo(map);
+
+            // Tạo thẻ sự kiện
+            const eventCard = document.createElement('div');
+            eventCard.className = 'event-card';
+            eventCard.innerHTML = `
+                <div class="event-date">📅 ${event.date}</div>
+                <h2>${event.title}</h2>
+                <div class="event-location">📍 ${event.location.name}</div>
+                <p>${event.content}</p>
+                <div class="participants">
+                    ${event.participants.map(p => `<span class="participant">👤 ${p}</span>`).join('')}
+                </div>
+            `;
+
+            // Thêm hiệu ứng tương tác
+            eventCard.addEventListener('mouseenter', () => {
+                marker.openPopup();
+                map.flyTo([event.location.lat, event.location.lng], 7);
+            });
+
+            timeline.appendChild(eventCard);
+        });
+    </script>
 </body>
 </html>
